@@ -25,5 +25,12 @@ Object.keys(profiles).forEach(function registerImageProcessor(profileName) {
   });
 });
 
-// Register the "imsize" tag
+// Set up the "database" of image data (not used yet)
+hexo.locals.set("image_sizes_db", [])
+
+// Register the "imsize" tag. These tags interact with the image_sizes_db
 hexo.extend.tag.register("imsize", imsizeTag, {ends: true});
+
+hexo.extend.filter.register("after_generate", function() {
+  debug(hexo.locals.get("image_sizes_db"));
+});

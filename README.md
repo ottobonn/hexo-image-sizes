@@ -53,6 +53,9 @@ an `image_sizes` section to your config file, like this:
           height: 1000
           allowEnlargement: true
       defaultProfile: body
+      link: true
+      linkProfile: huge
+      useAltForTitle: true
 
 The `image_sizes` config object supports the following fields:
 
@@ -75,7 +78,15 @@ The `image_sizes` config object supports the following fields:
   resized using bicubic interpolation.
 * `defaultProfile`: The name of a profile specified in `profiles` that should be
   the default when an embedded image tag doesn't specify a profile (see below).
-
+  the default when an embedded image tag doesn't specify a profile (see below).
+* `link`: True if the image should be wrapped in a link to its source file.
+This property can also be specified in the embed tag, in which case the setting
+in the embed tag will take precedence.
+* `linkProfile`: The profile of the image to which to link. If `linkProfile` is omitted, the link will go to the original image.
+This property can also be specified in the embed tag, in which case the setting
+in the embed tag will take precedence.
+* `useAltForTitle`: Set to true to use image `alt` attributes as their `title`
+  as well.
 
 ### Embed images
 
@@ -86,7 +97,10 @@ place in your posts' Markdown like this:
     {% imsize %}
     src: /uploads/2017/01/05/5510-repair.jpg
     alt: Dell Precision 5510 repair
+    title: Cool beans!
     profile: thumbnail
+    link: true
+    linkProfile: huge
     {% endimsize %}
 
 The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
@@ -102,3 +116,7 @@ match one you've configured in your sitewide `_config.yml` as described above.
 If you leave this key out, or the name is invalid, the image will use the
 default profile specified in `_config.yml`. If you don't have a default profile,
 the image will be the unaltered original size.
+* `link`: True if the image should be wrapped in a link to its source file.
+If specified here, overrides the setting in `_config.yml`.
+* `linkProfile`: The profile of the image to which to link. If `linkProfile` is omitted, the link will go to the original image.
+If specified here, overrides the setting in `_config.yml`.
