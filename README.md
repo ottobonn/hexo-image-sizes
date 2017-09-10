@@ -78,7 +78,6 @@ The `image_sizes` config object supports the following fields:
   resized using bicubic interpolation.
 * `defaultProfile`: The name of a profile specified in `profiles` that should be
   the default when an embedded image tag doesn't specify a profile (see below).
-  the default when an embedded image tag doesn't specify a profile (see below).
 * `link`: True if the image should be wrapped in a link to its source file.
 This property can also be specified in the embed tag, in which case the setting
 in the embed tag will take precedence.
@@ -104,13 +103,15 @@ place in your posts' Markdown like this:
     {% endimsize %}
 
 The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
-It supports three keys (others are simply ignored):
+It supports these keys (others are simply ignored):
 
 * `src`: The source path of the image you want to include. This is the same path
 you would use with regular Markdown images in Hexo, and it depends on how you've
 configured Hexo to treat paths for your site.
 * `alt`: The alt-text for the image. If you leave this key out, then no "alt"
 property will be added to the image tag.
+* `title`: The HTML "title" for the image. If you leave this key out, then there
+  won't be a "title", unless `useAltForTitle` is true and there is alt-text.
 * `profile`: The name of the image profile you'd like to use. This name should
 match one you've configured in your sitewide `_config.yml` as described above.
 If you leave this key out, or the name is invalid, the image will use the
