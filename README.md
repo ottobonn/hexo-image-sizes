@@ -35,6 +35,10 @@ In your Hexo site's root directory, run
 Using hexo-image-sizes requires two steps: first, you need to set up your
 desired image profiles. Then, you need to embed your images in your posts.
 
+Remember to clear the database prior to first use so that the existing image files can get picked up:
+
+    hexo clean
+
 ### Configure image profiles
 
 First, you need to set up image profiles in your sitewide `_config.yml`. Add
@@ -45,9 +49,9 @@ an `image_sizes` section to your config file, like this:
       pattern: !!js/regexp /\.(gif|jpg|jpeg|png)$/i
       profiles:
         body:
-          width: 700 // height will adjust to preserve aspect ratio
+          width: 700 # height will adjust to preserve aspect ratio
         thumbnail:
-          width: 100 // Image will be cropped to a square
+          width: 100 # Image will be cropped to a square
           height: 100
         huge:
           height: 1000
