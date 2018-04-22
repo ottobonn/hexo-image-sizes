@@ -1,6 +1,6 @@
 /* global hexo */
 var assign = require("object-assign");
-var ImageSizesProcessor = require("./lib/ImageSizesProcessor");
+var ImageResizer = require("./lib/ImageResizer");
 var imsizeTag = require("./lib/imsize-tag")(hexo);
 var debug = require("debug")("hexo:image_sizes");
 
@@ -14,55 +14,69 @@ debug("Registering for files matching " + hexo.config.image_sizes.pattern);
 let profiles = hexo.config.image_sizes.profiles;
 
 hexo.locals.set("image_sizes_db", {
-  updatedPaths: {}, // Files that have changed since Hexo last ran (map from relative path to full path)
-  imagesToGenerate: {}, // Files the blog actually uses (map from profile type to file info)
+  updatedPaths: {}, // Files that have changed since Hexo last ran (map from absolute path to Hexo file object)
+  imagesToGenerate: {}, // Files the blog actually uses (map from profile type to file info from imsizeTag)
 });
 
+// Observe Hexo file activity and record which files are updated
+// Each file object is a Hexo file (https://hexo.io/api/box.html)
 hexo.extend.processor.register(hexo.config.image_sizes.pattern, function (file) {
-  // Record which files need updating
   let updatedPaths = hexo.locals.get("image_sizes_db").updatedPaths;
   let verb = file.type;
-  updatedPaths[file.path] = file;
-  debug(`Observed ${verb} ${file.path}`);
+  let hexoRelativeInput = file.path;
+  updatedPaths[hexoRelativeInput] = file;
+  debug(`Observed ${verb} ${hexoRelativeInput}`);
 });
 
-// Register the "imsize" tag. These tags interact with the image_sizes_db
+// Register the "imsize" tag. These tags interact with the image_sizes_db to
+// record when a post uses an image and embed the image in the post.
 hexo.extend.tag.register("imsize", imsizeTag, {ends: true});
 
-// Generate images the site uses in imsize tags
+// Generate images the site has used in imsize tags
 hexo.extend.filter.register("after_generate", function() {
   let db = hexo.locals.get("image_sizes_db");
-  debug(db);
+  debug(JSON.stringify(db, null, 2));
+
   let updatedPaths = db.updatedPaths;
   let imagesToGenerate = db.imagesToGenerate;
+
   Object.keys(imagesToGenerate).forEach((profileName) => {
+
     let profile = profiles[profileName];
-    let processor = new ImageSizesProcessor(hexo, profileName, {
+    let resizer = new ImageResizer(hexo, profileName, {
       "width": profile.width,
       "height": profile.height,
       "allowEnlargement": profile.allowEnlargement
     });
+
     let toGenerate = imagesToGenerate[profileName];
     toGenerate.forEach((fileInfo) => {
-      let input = fileInfo.inputPath;
-      let output = fileInfo.outputPath;
-      let file = updatedPaths[input];
+      let {hexoRelativeInput, hexoRelativeOutput} = fileInfo;
+
+      // TODO factor out this check for verb:
+      let file = updatedPaths[hexoRelativeInput];
       if (!file) {
-        debug(`Unknown file:\t${input}`);
-        return; // This file was not updated recently
-      }
-      let fullPath = file.source;
-      let verb = file.type;
-      if (!(verb === "create" || verb === "update")) {
-        debug(`Unchanged file:\t${input}`);
+        debug(`Unknown file:\t${hexoRelativeInput}`);
         return;
       }
-      debug(`Generating "${profileName}" version of\t${input}`);
-      processor.process({
-        relativeInput: input,
-        relativeOutput: output,
-        fullInput: fullPath,
+      let verb = file.type;
+      if (!(verb === "create" || verb === "update")) {
+        debug(`Unchanged file:\t${hexoRelativeInput}`);
+        return;
+      }
+
+      debug("Resizing image\n", {
+        hexoRelativeInput,
+        hexoRelativeOutput,
+        profileName,
       });
+
+      resizer.resizeRoute({
+        originalRouteName: hexoRelativeInput,
+        resizedRouteName: hexoRelativeOutput,
+      });
+
     });
-  })
+
+  });
 });
