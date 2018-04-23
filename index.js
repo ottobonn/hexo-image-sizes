@@ -40,7 +40,7 @@ hexo.extend.filter.register("after_generate", function() {
   let updatedPaths = db.updatedPaths;
   let imagesToGenerate = db.imagesToGenerate;
 
-  Object.keys(imagesToGenerate).forEach((profileName) => {
+  let profilesGenerated = Object.keys(imagesToGenerate).map((profileName) => {
 
     let profile = profiles[profileName];
     let resizer = new ImageResizer(hexo, profileName, {
@@ -50,7 +50,7 @@ hexo.extend.filter.register("after_generate", function() {
     });
 
     let toGenerate = imagesToGenerate[profileName];
-    toGenerate.forEach((fileInfo) => {
+    let imagesInProfileGenerated = toGenerate.map((fileInfo) => {
       let {hexoRelativeInput, hexoRelativeOutput} = fileInfo;
 
       // TODO factor out this check for verb:
@@ -71,12 +71,16 @@ hexo.extend.filter.register("after_generate", function() {
         profileName,
       });
 
-      resizer.resizeRoute({
+      return resizer.resizeRoute({
         originalRouteName: hexoRelativeInput,
         resizedRouteName: hexoRelativeOutput,
       });
 
     });
 
+    return Promise.all(imagesInProfileGenerated);
   });
+
+  // Return undefined to leave original file data unmodified
+  return Promise.all(profilesGenerated).then(() => undefined);
 });

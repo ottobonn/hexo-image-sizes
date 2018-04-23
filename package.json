@@ -1,6 +1,6 @@
 {
   "name": "hexo-image-sizes",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Generate images of various sizes from source images.",
   "main": "index.js",
   "scripts": {
