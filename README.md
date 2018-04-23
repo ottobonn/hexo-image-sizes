@@ -45,9 +45,9 @@ an `image_sizes` section to your config file, like this:
       pattern: !!js/regexp /\.(gif|jpg|jpeg|png)$/i
       profiles:
         body:
-          width: 700 // height will adjust to preserve aspect ratio
+          width: 700 # height will adjust to preserve aspect ratio
         thumbnail:
-          width: 100 // Image will be cropped to a square
+          width: 100 # Image will be cropped to a square
           height: 100
         huge:
           height: 1000
@@ -95,7 +95,7 @@ Markdown. This package provides support for the `imsize` tag, which you
 place in your posts' Markdown like this:
 
     {% imsize %}
-    src: uploads/2017/01/05/5510-repair.jpg
+    src: /uploads/2017/01/05/5510-repair.jpg
     alt: Dell Precision 5510 repair
     title: Cool beans!
     profile: thumbnail
@@ -121,3 +121,8 @@ the image will be the unaltered original size.
 If specified here, overrides the setting in `_config.yml`.
 * `linkProfile`: The profile of the image to which to link. If `linkProfile` is omitted, the link will go to the original image.
 If specified here, overrides the setting in `_config.yml`.
+
+### Regenerate your site
+
+After configuring things the way you want, run `hexo clean` and `hexo generate`
+to generate your site.
