@@ -1,5 +1,7 @@
 # hexo-image-sizes
 
+[![NPM](https://nodei.co/npm/hexo-image-sizes.png)](https://npmjs.org/package/hexo-image-sizes)
+
 Generate multiple image resolutions for each source image in Hexo. Uses the
 awesome [sharp](https://github.com/lovell/sharp) image library under the hood.
 
