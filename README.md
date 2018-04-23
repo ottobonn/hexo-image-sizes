@@ -106,10 +106,9 @@ place in your posts' Markdown like this:
 The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
 It supports three keys (others are simply ignored):
 
-* `src`: The source path of the image you want to include. This path **must be
-relative to the root of your Hexo source directory** and must not include a
-leading slash. For example, in the above tag, the `uploads` directory is in
-the top level of the `source` directory.
+* `src`: The source path of the image you want to include. This is the same path
+you would use with regular Markdown images in Hexo, and it depends on how you've
+configured Hexo to treat paths for your site.
 * `alt`: The alt-text for the image. If you leave this key out, then no "alt"
 property will be added to the image tag.
 * `profile`: The name of the image profile you'd like to use. This name should
