@@ -1,13 +1,13 @@
 {
   "name": "hexo-image-sizes",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Generate images of various sizes from source images.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "Travis Geis <travis@travisgeis.com> (travisgeis.com)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "debug": "^2.2.0",
     "hexo-util": "^0.6.0",
