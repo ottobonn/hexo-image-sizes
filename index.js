@@ -46,7 +46,8 @@ hexo.extend.filter.register("after_generate", function() {
     let resizer = new ImageResizer(hexo, profileName, {
       "width": profile.width,
       "height": profile.height,
-      "allowEnlargement": profile.allowEnlargement
+      "allowEnlargement": profile.allowEnlargement,
+      "disableRotation": profile.disableRotation
     });
 
     let toGenerate = imagesToGenerate[profileName];
