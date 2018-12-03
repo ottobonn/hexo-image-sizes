@@ -32,6 +32,12 @@ hexo.extend.processor.register(hexo.config.image_sizes.pattern, function (file) 
 // record when a post uses an image and embed the image in the post.
 hexo.extend.tag.register("imsize", imsizeTag, {ends: true});
 
+// Switch the slashes in case we get Windows-style paths.
+function switchSlashes(str)
+{
+  return str.split('\\').join('/');
+}
+
 // Generate images the site has used in imsize tags
 hexo.extend.filter.register("after_generate", function() {
   let db = hexo.locals.get("image_sizes_db");
@@ -56,6 +62,10 @@ hexo.extend.filter.register("after_generate", function() {
 
       // TODO factor out this check for verb:
       let file = updatedPaths[hexoRelativeInput];
+      if (!file) {
+        file = updatedPaths[switchSlashes(hexoRelativeInput)];
+      }
+
       if (!file) {
         debug(`Unknown file:\t${hexoRelativeInput}`);
         return;
