@@ -80,7 +80,6 @@ The `image_sizes` config object supports the following fields:
   resized using bicubic interpolation.
 * `defaultProfile`: The name of a profile specified in `profiles` that should be
   the default when an embedded image tag doesn't specify a profile (see below).
-  the default when an embedded image tag doesn't specify a profile (see below).
 * `link`: True if the image should be wrapped in a link to its source file.
 This property can also be specified in the embed tag, in which case the setting
 in the embed tag will take precedence.
