@@ -41,7 +41,6 @@ hexo.extend.filter.register("after_generate", function() {
   let imagesToGenerate = db.imagesToGenerate;
 
   let profilesGenerated = Object.keys(imagesToGenerate).map((profileName) => {
-
     let profile = profiles[profileName];
     let resizer = new ImageResizer(hexo, profileName, {
       "width": profile.width,
@@ -51,29 +50,31 @@ hexo.extend.filter.register("after_generate", function() {
 
     let toGenerate = imagesToGenerate[profileName];
     let imagesInProfileGenerated = toGenerate.map((fileInfo) => {
-      let {hexoRelativeInput, hexoRelativeOutput} = fileInfo;
+
+      let { rawHexoRelativeInput, hexoRelativeOutput, metaData} = fileInfo;
 
       // TODO factor out this check for verb:
-      let file = updatedPaths[hexoRelativeInput];
+      let file = updatedPaths[rawHexoRelativeInput];
       if (!file) {
-        debug(`Unknown file:\t${hexoRelativeInput}`);
+        debug(`Unknown file:\t${rawHexoRelativeInput}`);
         return;
       }
       let verb = file.type;
       if (!(verb === "create" || verb === "update")) {
-        debug(`Unchanged file:\t${hexoRelativeInput}`);
+        debug(`Unchanged file:\t${rawHexoRelativeInput}`);
         return;
       }
 
       debug("Resizing image\n", {
-        hexoRelativeInput,
+        rawHexoRelativeInput,
         hexoRelativeOutput,
         profileName,
       });
 
       return resizer.resizeRoute({
-        originalRouteName: hexoRelativeInput,
+        originalRouteName: rawHexoRelativeInput,
         resizedRouteName: hexoRelativeOutput,
+        metaData,
       });
 
     });
