@@ -112,7 +112,7 @@ linkProfile: huge
 ```
 
 The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
-It supports three keys (others are simply ignored):
+It supports these keys (others are ignored and may be used in the future):
 
 * `src`: The source path of the image you want to include. This is the same path
 you would use with regular Markdown images in Hexo, and it depends on how you've
