@@ -3,6 +3,7 @@ var assign = require("object-assign");
 var ImageResizer = require("./lib/ImageResizer");
 var imsizeTag = require("./lib/imsize-tag")(hexo);
 var debug = require("debug")("hexo:image_sizes");
+var Utility = require("./lib/Utility");
 
 hexo.config.image_sizes = assign({
   pattern: /\.(jpg|jpeg|png)$/i,
@@ -46,7 +47,8 @@ hexo.extend.filter.register("after_generate", function() {
     let resizer = new ImageResizer(hexo, profileName, {
       "width": profile.width,
       "height": profile.height,
-      "allowEnlargement": profile.allowEnlargement
+      "allowEnlargement": profile.allowEnlargement,
+      "disableRotation": profile.disableRotation
     });
 
     let toGenerate = imagesToGenerate[profileName];
@@ -55,6 +57,11 @@ hexo.extend.filter.register("after_generate", function() {
 
       // TODO factor out this check for verb:
       let file = updatedPaths[hexoRelativeInput];
+      if (!file) {
+        hexoRelativeInput = Utility.pathToBackslashPath(hexoRelativeInput);
+        file = updatedPaths[hexoRelativeInput];
+      }
+
       if (!file) {
         debug(`Unknown file:\t${hexoRelativeInput}`);
         return;
