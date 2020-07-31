@@ -30,7 +30,9 @@ Easy!
 
 In your Hexo site's root directory, run
 
-    npm install hexo-image-sizes
+```sh
+npm install hexo-image-sizes
+```
 
 ## Usage
 
@@ -42,22 +44,24 @@ desired image profiles. Then, you need to embed your images in your posts.
 First, you need to set up image profiles in your sitewide `_config.yml`. Add
 an `image_sizes` section to your config file, like this:
 
-    # Configuration for hexo-image-sizes
-    image_sizes:
-      pattern: !!js/regexp /\.(gif|jpg|jpeg|png)$/i
-      profiles:
-        body:
-          width: 700 # height will adjust to preserve aspect ratio
-        thumbnail:
-          width: 100 # Image will be cropped to a square
-          height: 100
-        huge:
-          height: 1000
-          allowEnlargement: true
-      defaultProfile: body
-      link: true
-      linkProfile: huge
-      useAltForTitle: true
+```yml
+# Configuration for hexo-image-sizes
+image_sizes:
+  pattern: !!js/regexp /\.(gif|jpg|jpeg|png)$/i
+  profiles:
+    body:
+      width: 700 # height will adjust to preserve aspect ratio
+    thumbnail:
+      width: 100 # Image will be cropped to a square
+      height: 100
+    huge:
+      height: 1000
+      allowEnlargement: true
+  defaultProfile: body
+  link: true
+  linkProfile: huge
+  useAltForTitle: true
+```
 
 The `image_sizes` config object supports the following fields:
 
@@ -96,14 +100,16 @@ To use hexo-image-sizes, you need to alter the way you embed images in
 Markdown. This package provides support for the `imsize` tag, which you
 place in your posts' Markdown like this:
 
-    {% imsize %}
-    src: /uploads/2017/01/05/5510-repair.jpg
-    alt: Dell Precision 5510 repair
-    title: Cool beans!
-    profile: thumbnail
-    link: true
-    linkProfile: huge
-    {% endimsize %}
+```yml
+{% imsize %}
+src: /uploads/2017/01/05/5510-repair.jpg
+alt: Dell Precision 5510 repair
+title: Cool beans!
+profile: thumbnail
+link: true
+linkProfile: huge
+{% endimsize %}
+```
 
 The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
 It supports three keys (others are simply ignored):
