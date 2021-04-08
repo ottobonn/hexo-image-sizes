@@ -3,10 +3,11 @@ var assign = require("object-assign");
 var ImageResizer = require("./lib/ImageResizer");
 var imsizeTag = require("./lib/imsize-tag")(hexo);
 var debug = require("debug")("hexo:image_sizes");
+import path from 'path';
 
 hexo.config.image_sizes = assign({
   pattern: /\.(jpg|jpeg|png)$/i,
-  profiles: []
+  profiles: [],
 }, hexo.config.image_sizes);
 
 debug("Registering for files matching " + hexo.config.image_sizes.pattern);
@@ -33,9 +34,8 @@ hexo.extend.processor.register(hexo.config.image_sizes.pattern, function (file) 
 hexo.extend.tag.register("imsize", imsizeTag, {ends: true});
 
 // Switch the slashes in case we get Windows-style paths.
-function switchSlashes(str)
-{
-  return str.split('\\').join('/');
+function normalize(p) {
+  return path.normalize(p).replace(new RegExp(path.sep, 'g'), '/');
 }
 
 // Generate images the site has used in imsize tags
@@ -53,7 +53,7 @@ hexo.extend.filter.register("after_generate", function() {
       "width": profile.width,
       "height": profile.height,
       "allowEnlargement": profile.allowEnlargement,
-      "disableRotation": profile.disableRotation
+      "autoRotate": profile.autoRotate !== false,
     });
 
     let toGenerate = imagesToGenerate[profileName];
@@ -61,10 +61,7 @@ hexo.extend.filter.register("after_generate", function() {
       let {hexoRelativeInput, hexoRelativeOutput} = fileInfo;
 
       // TODO factor out this check for verb:
-      let file = updatedPaths[hexoRelativeInput];
-      if (!file) {
-        file = updatedPaths[switchSlashes(hexoRelativeInput)];
-      }
+      let file = updatedPaths[normalize(hexoRelativeInput)];
 
       if (!file) {
         debug(`Unknown file:\t${hexoRelativeInput}`);
