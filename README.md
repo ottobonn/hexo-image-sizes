@@ -78,6 +78,7 @@ The `image_sizes` config object supports the following fields:
   * `allowEnlargement`: A boolean, true if images smaller than the profile
     size should be enlarged to the maximum dimensions. By default, this is
     false. Enlargement can cause quality degradation, so use accordingly.
+  * `autoRotate`: Rotate images based on their EXIF data. True by default.
 
   If you want to preserve the aspect ratio of your images, just specify one of
   `width` and `height`, and the other will adjust automatically. Images are
