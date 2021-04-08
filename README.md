@@ -78,12 +78,12 @@ The `image_sizes` config object supports the following fields:
   * `allowEnlargement`: A boolean, true if images smaller than the profile
     size should be enlarged to the maximum dimensions. By default, this is
     false. Enlargement can cause quality degradation, so use accordingly.
+  * `autoRotate`: Rotate images based on their EXIF data. True by default.
 
   If you want to preserve the aspect ratio of your images, just specify one of
   `width` and `height`, and the other will adjust automatically. Images are
   resized using bicubic interpolation.
 * `defaultProfile`: The name of a profile specified in `profiles` that should be
-  the default when an embedded image tag doesn't specify a profile (see below).
   the default when an embedded image tag doesn't specify a profile (see below).
 * `link`: True if the image should be wrapped in a link to its source file.
 This property can also be specified in the embed tag, in which case the setting
