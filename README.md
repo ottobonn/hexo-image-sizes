@@ -111,7 +111,7 @@ linkProfile: huge
 {% endimsize %}
 ```
 
-The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document.
+The body of the `imsize` tag is a [YAML](http://yaml.org/start.html) document. 
 It supports these keys (others are ignored and may be used in the future):
 
 * `src`: The source path of the image you want to include. This is the same path
