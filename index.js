@@ -3,7 +3,7 @@ var assign = require("object-assign");
 var ImageResizer = require("./lib/ImageResizer");
 var imsizeTag = require("./lib/imsize-tag")(hexo);
 var debug = require("debug")("hexo:image_sizes");
-import path from 'path';
+const path = require('path');
 
 hexo.config.image_sizes = assign({
   pattern: /\.(jpg|jpeg|png)$/i,
