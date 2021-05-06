@@ -1,11 +1,10 @@
 /* global hexo */
-var assign = require("object-assign");
 var ImageResizer = require("./lib/ImageResizer");
 var imsizeTag = require("./lib/imsize-tag")(hexo);
 var debug = require("debug")("hexo:image_sizes");
 const path = require('path');
 
-hexo.config.image_sizes = assign({
+hexo.config.image_sizes = Object.assign({
   pattern: /\.(jpg|jpeg|png)$/i,
   profiles: [],
 }, hexo.config.image_sizes);

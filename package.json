@@ -9,11 +9,10 @@
   "author": "Travis Geis <travis@travisgeis.com> (travisgeis.com)",
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.2.0",
-    "hexo-util": "^0.6.0",
-    "js-yaml": "^3.13.1",
-    "object-assign": "^4.1.0",
-    "sharp": "^0.22.1",
+    "debug": "^4.3.1",
+    "hexo-util": "^2.5.0",
+    "js-yaml": "^4.1.0",
+    "sharp": "^0.28.1",
     "stream-to-array": "^2.3.0"
   }
 }
